@@ -1,8 +1,9 @@
 import { error } from '@sveltejs/kit';
 import { Contests } from '$lib/contests';
+import { CONTEST_URL } from '$lib/hardcoded';
 
 export const load = async (params) => {
-	const c = new Contests('https://localhost:8443/api/');
+	const c = new Contests(CONTEST_URL);
 	await c.loadContests();
 	if (!c) throw error(404);
 
