@@ -59,7 +59,17 @@
 				<div role="cell">{data.teams[i].display_name || data.teams[i].name}</div>
 
 				{#each row.problems || [] as rp}
-					<div role="cell" class:bg-green-500={rp.solved}>{rp.solved}</div>
+					{#if rp.num_judged > 0}
+						<div
+							role="cell"
+							class:bg-green-500={rp.solved}
+							class:bg-yellow-500={!rp.solved && rp.num_judged > 0}
+						>
+							{rp.num_judged}
+						</div>
+					{:else}
+						<div role="cell"></div>
+					{/if}
 				{/each}
 
 				<div role="cell" class="justify-self-center">

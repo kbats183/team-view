@@ -1,6 +1,7 @@
 {
-	"name": "coach",
+	"name": "team",
 	"version": "0.0.1",
+	"type": "module",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -38,6 +39,5 @@
 	},
 	"dependencies": {
 		"got": "^14.4.2"
-	},
-	"type": "module"
+	}
 }
