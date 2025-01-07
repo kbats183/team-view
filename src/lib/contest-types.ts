@@ -2,8 +2,19 @@
  * Copyright later.
  */
 
+export type Id = string;
+
+export type RelTime = string;
+
+export type Time = string;
+
+export interface ContestLocationJSON {
+	latitude: number;
+	longitude: number;
+}
+
 export interface ContestJSON {
-	id: string;
+	id: Id;
 	name: string;
 	formal_name?: string;
 	start_time?: string;
@@ -14,15 +25,11 @@ export interface ContestJSON {
 	countdown_pause_time?: string;
 	banner?: FileReferenceJSON[];
 	logo?: FileReferenceJSON[];
+	location?: ContestLocationJSON;
 }
 
-export type RelTime = string;
-
-export type Time = string;
-
-// ID too?
 export interface FileReferenceJSON {
-	href?: string;
+	href: string;
 	filename: string;
 	mime: string;
 	hash?: string;
@@ -38,8 +45,16 @@ export interface ContestStateJSON {
 	finalized?: Time;
 	end_of_updates?: Time;
 }
+
+
+export interface TeamLocationJSON {
+	x: number;
+	y: number;
+	rotation: number;
+}
+
 export interface TeamJSON {
-	id: string;
+	id: Id;
 	label: string;
 	name: string;
 	display_name: string;
@@ -50,23 +65,24 @@ export interface TeamJSON {
 	desktop?: FileReferenceJSON[];
 	webcam?: FileReferenceJSON[];
 	audio?: FileReferenceJSON[];
+	location: TeamLocationJSON;
 }
 
 export interface ProblemJSON {
-	id: string;
+	id: Id;
 	label: string;
 	name: string;
 	ordinal: number;
 }
 
 export interface GroupJSON {
-	id: string;
+	id: Id;
 	name: string;
 	type?: string;
 }
 
 export interface OrganizationJSON {
-	id: string;
+	id: Id;
 	name: string;
 	formal_name?: string;
 	country?: string;
@@ -74,10 +90,10 @@ export interface OrganizationJSON {
 }
 
 export interface SubmissionJSON {
-	id: string;
-	language_id: string;
-	problem_id: string;
-	team_id: string;
+	id: Id;
+	language_id: Id;
+	problem_id: Id;
+	team_id: Id;
 	time: Time;
 	contest_time: RelTime;
 	files: FileReferenceJSON;
@@ -85,21 +101,21 @@ export interface SubmissionJSON {
 }
 
 export interface JudgementTypeJSON {
-	id: string;
+	id: Id;
 	name: string;
 	penalty: boolean;
 	solved: boolean;
 }
 
 export interface LanguageJSON {
-	id: string;
+	id: Id;
 	name: string;
 }
 
 export interface PersonJSON {
-	id: string;
+	id: Id;
 	name: string;
-	team_ids?: string[];
+	team_ids?: Id[];
 	title?: string;
 	email?: string;
 	sex?: string;
@@ -123,13 +139,13 @@ export interface ScoreboardScoreJSON {
 
 export interface ScoreboardRowJSON {
 	rank: number;
-	team_id: string;
+	team_id: Id;
 	score: ScoreboardScoreJSON;
 	problems?: ScoreboardProblemJSON[];
 }
 
 export interface ScoreboardProblemJSON {
-	problem_id: string;
+	problem_id: Id;
 	num_judged: number;
 	num_pending: number;
 	solved?: boolean;
@@ -137,28 +153,43 @@ export interface ScoreboardProblemJSON {
 	time?: RelTime;
 }
 
+export interface JudgementJSON {
+	id: Id;
+	submission_id: Id;
+	judgement_type_id: Id;
+	score?: number;
+	current?: boolean;
+	start_time: Time;
+	start_contest_time: RelTime;
+	end_time: Time;
+	end_contest_time: RelTime;
+	max_run_time: number;
+}
+
 export interface AwardJSON {
-	id: string; // todo
+	id: Id; // todo
 }
 
 export interface RunJSON {
-	id: string; // todo
+	id: Id; // todo
 }
-export interface JudgementJSON {
-	id: string; // todo
-}
+
 export interface AccountJSON {
-	id: string; // todo
+	id: Id; // todo
 }
+
 export interface ClarificationJSON {
-	id: string; // todo
+	id: Id; // todo
 }
+
 export interface CommentaryJSON {
-	id: string; // todo
+	id: Id; // todo
 }
+
 export interface AccessJSON {
-	id: string; // todo
+	id: Id; // todo
 }
+
 export interface StartStatusJSON {
-	id: string; // todo
+	id: Id; // todo
 }
