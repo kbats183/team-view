@@ -25,6 +25,7 @@ import type {
 	SubmissionJSON,
 	TeamJSON
 } from './contest-types';
+import { CONTEST_URL } from './hardcoded';
 
 export class Contest {
 	info?: ContestJSON;
@@ -73,9 +74,13 @@ export class Contest {
 		const httpsOptions: HttpsOptions = {
 			rejectUnauthorized: false
 		};
+		const user = "admin";
+		const password = "adm1n";
 		const options: OptionsOfTextResponseBody = {
 			https: httpsOptions,
 			retry: { limit: 0 },
+			username: user,
+			password: password,
 			// specify short timeout
 			timeout: {
 				lookup: 2000,
@@ -352,7 +357,7 @@ export class Contest {
 	resolveURL(ref: FileReferenceJSON | undefined): string | undefined {
 		if (!ref || !ref.href) return undefined;
 		// TODO: for now, hack off part of the URL
-		return this.contestURL.substring(0, 27) + ref.href;
+		return this.contestURL.substring(0, CONTEST_URL.length) + ref.href;
 	}
 
 	clear() {

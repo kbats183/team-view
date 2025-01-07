@@ -59,7 +59,7 @@
 			<div role="row" class="grid grid-table gapx-0.5 items-center h-9" style="grid-template-columns: {col}">
 				<div role="cell" class="justify-self-end pr-1">{row.rank}</div>
 				{#if data.hasLogos}
-				<div role="cell" class="w-4 h-4 justify-self-center"><Logo ref={data.logos[i]} /></div>
+				<div role="cell" class="w-4 h-full justify-self-center"><Logo ref={data.logos[i]} /></div>
 				{/if}
 				<div role="cell"><a href="/team/{data.teams[i].id}">{data.teams[i].display_name || data.teams[i].name}</a></div>
 
