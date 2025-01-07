@@ -4,33 +4,45 @@
 import type { FileReferenceJSON, ProblemJSON, SubmissionJSON } from './contest-types';
 
 export class ContestUtil {
-	findById(arr: any[], id: string): any | undefined {
-		if (arr == null || id == null) return undefined;
+	findById<Type extends { id: string }>(arr: Array<Type> | undefined, id: string | undefined): Type | undefined {
+		if (!arr || arr.length === 0 || !id) {
+			return undefined;
+		}
 
 		for (var i = 0; i < arr.length; i++) {
-			if (id == arr[i].id) return arr[i];
+			if (id === arr[i].id) {
+				return arr[i];
+			}
 		}
 		return undefined;
 	}
 
-	findManyById(arr: any[], ids: string): any[] | undefined {
-		if (arr == null || ids == null || ids.length == 0) return undefined;
+	findManyById<Type extends { id: string }>(arr: Array<Type> | undefined, ids: string | undefined): Array<Type> | undefined {
+		if (!arr || arr.length === 0 || !ids || ids.length == 0) {
+			return undefined;
+		}
 
 		var list = [];
 		for (var j = 0; j < ids.length; j++) {
 			for (var i = 0; i < arr.length; i++) {
-				if (ids[j] == arr[i].id) list.push(arr[i]);
+				if (ids[j] === arr[i].id) {
+					list.push(arr[i]);
+				}
 			}
 		}
 		return list;
 	}
 
-	findManyBySubmissionId(arr: any[], id: string): any {
-		if (arr == null || id == null) return undefined;
+	findManyBySubmissionId<Type extends { submission_id: string }>(arr: Array<Type>, id: string | undefined): Array<Type> | undefined {
+		if (!arr || arr.length === 0 || !id) {
+			return undefined;
+		}
 
 		var list = [];
 		for (var i = 0; i < arr.length; i++) {
-			if (arr[i].submission_id == id) list.push(arr[i]);
+			if (arr[i].submission_id === id) {
+				list.push(arr[i]);
+			}
 		}
 		return list;
 	}
@@ -152,9 +164,9 @@ export class ContestUtil {
 			const time: number | string | undefined = this.parseRelTime(submissions[i].contest_time);
 			if (time && time >= 0 && submissions[i].problem_id == problem_id) {
 				// TODO: should we check if this is a public team too?
-				let judgements = this.findManyBySubmissionId(contest.getJudgements(), submissions[i].id);
+				const judgements = this.findManyBySubmissionId(contest.getJudgements(), submissions[i].id);
 				if (judgements != null && judgements.length > 0) {
-					let jt = this.findById(
+					const jt = this.findById(
 						contest.getJudgementTypes(),
 						judgements[judgements.length - 1].judgement_type_id
 					);
