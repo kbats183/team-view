@@ -7,20 +7,18 @@ export interface ContestJSON {
 	name: string;
 	formal_name?: string;
 	start_time?: string;
-	duration: string;
+	duration: RelTime;
 	scoreboard_freeze_duration?: string;
 	scoreboard_type: 'pass-fail' | 'scoring';
-	penalty_time?: number;
+	penalty_time?: RelTime;
 	countdown_pause_time?: string;
 	banner?: FileReferenceJSON[];
 	logo?: FileReferenceJSON[];
 }
 
-export interface Time {
-	// todo
-}
+export type RelTime = string;
 
-export interface RelTime {}
+export type Time = string;
 
 // ID too?
 export interface FileReferenceJSON {
@@ -117,10 +115,10 @@ export interface ScoreboardJSON {
 }
 
 export interface ScoreboardScoreJSON {
-	num_solved: number;
-	total_time: number;
-	score: number;
-	time: number;
+	num_solved?: number;
+	total_time?: RelTime;
+	score?: number;
+	time?: RelTime;
 }
 
 export interface ScoreboardRowJSON {
@@ -136,7 +134,7 @@ export interface ScoreboardProblemJSON {
 	num_pending: number;
 	solved?: boolean;
 	score?: number;
-	time?: number;
+	time?: RelTime;
 }
 
 export interface AwardJSON {

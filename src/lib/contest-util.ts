@@ -97,30 +97,59 @@ export class ContestUtil {
 		return best;
 	}
 
-	parseTime(contestTime: string): number | string | undefined {
-		if (!contestTime) return '?';
+	parseRelTime(relTime: string): number | undefined {
+		if (!relTime) {
+			return undefined;
+		}
 
-		const match = contestTime.match('-?([0-9]+):([0-9]{2}):([0-9]{2})(\\.[0-9]{3})?');
+		const match = relTime.match('-?([0-9]+):([0-9]{2}):([0-9]{2})(\\.[0-9]{3})?');
 
-		if (match == null || match.length < 4) return undefined;
+		if (match == null || match.length < 4) {
+			return undefined;
+		}
 
 		const h = parseInt(match[1]);
 		const m = parseInt(match[2]);
 		const s = parseInt(match[3]);
 		let ms = 0;
-		if (match.length == 5) ms = parseInt(match[4].substring(1));
+		if (match.length == 5){
+			ms = parseInt(match[4].substring(1));
+		}
 
 		const ret = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000 + ms;
-		if (contestTime.startsWith('-')) return -ret;
+		if (relTime.startsWith('-')) {
+			return -ret;
+		}
 
 		return ret;
+	}
+
+	formatTimeInMin(timeMs : number | undefined) {
+		if (!timeMs) {
+			return "";
+		}
+		if (timeMs >= 0 && timeMs < 1000)
+			return "0";
+	
+		var sb = [];
+		if (timeMs < 0) {
+			sb.push("-");
+			timeMs = -timeMs;
+		}
+		let timeS = Math.floor(timeMs / 1000);
+	
+		let mins = Math.floor(timeS / 60.0);
+		if (mins > 0)
+			sb.push(mins);
+	
+		return sb.join("");
 	}
 
 	isFirstToSolve(contest: any, submission: SubmissionJSON) {
 		const problem_id = submission.problem_id;
 		const submissions = contest.getSubmissions();
 		for (var i = 0; i < submissions.length; i++) {
-			const time: number | string | undefined = this.parseTime(submissions[i].contest_time);
+			const time: number | string | undefined = this.parseRelTime(submissions[i].contest_time);
 			if (time && time >= 0 && submissions[i].problem_id == problem_id) {
 				// TODO: should we check if this is a public team too?
 				let judgements = this.findManyBySubmissionId(contest.getJudgements(), submissions[i].id);
