@@ -17,9 +17,12 @@
 		<div class="flex flex-row items-center bg-gray-200 rounded-md">
 			<a href="/team/{team.id}">
 				<div class="flex flex-row gap-2 items-center">
-					<div class="bg-gray-400 rounded-md max-w-12 min-w-12 max-h-12 w-full p-1">
+					{#if data.logos[i]}
+					  <div class="bg-gray-400 rounded-md max-w-12 min-w-12 max-h-12 w-full p-1">
 						<Logo ref={data.logos[i]} />
-					</div>
+					  </div>
+					{/if}
+
 					<div class="p-1 min-w-6">{team.id}</div>
 					
 					<div>{team.display_name || team.name}</div>
