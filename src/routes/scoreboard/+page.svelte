@@ -23,14 +23,6 @@
 	let col = cols.join(' ');
 </script>
 
-<div class="flex flex-row gap-8">
-	<a href="/"><h1>ICPC Team View</h1></a>
-
-	<h1>Scoreboard</h1>
-
-	<p>{data.name}</p>
-</div>
-
 <div class="w-full text-sm" role="table" aria-label="scoreboard">
 	<!-- Table header -->
 	<div role="rowgroup">
@@ -43,7 +35,7 @@
 			<div role="cell"></div>
 			<div role="cell"></div>
 			{#each data.problems as problem}
-				<div role="cell uppercase">{problem.label}</div>
+				<div role="cell" class="uppercase">{problem.label}</div>
 			{/each}
 			<div role="cell" class="justify-self-center">Solved</div>
 			<div role="cell" class="justify-self-center">Penalty</div>

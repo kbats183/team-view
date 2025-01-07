@@ -5,7 +5,7 @@
 
 	export let url: string = CONTEST_URL + 'contests';
 	export let ref: FileReferenceJSON[] | undefined;
-	export let size: 32 | 64 = 32;
+	export let size: 24 | 32 | 64 = 24;
 </script>
 
 <Image {url} {ref} {size} />

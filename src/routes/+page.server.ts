@@ -30,12 +30,8 @@ export const load = async (_params) => {
 
 	const util = new ContestUtil();
 	const logos = teams?.map((team) => util.findById(orgs, team.organization_id)?.logo);
-	const contest = c.getContests()[0];
 
 	return {
-		name: contest.formal_name || contest.name,
-		banner: contest?.banner,
-		logo: contest?.logo,
 		teams: teams,
 		logos: logos
 	};
