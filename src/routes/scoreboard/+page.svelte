@@ -61,7 +61,7 @@
 				{#if data.hasLogos}
 				<div role="cell" class="w-4 h-4 justify-self-center"><Logo ref={data.logos[i]} /></div>
 				{/if}
-				<div role="cell">{data.teams[i].display_name || data.teams[i].name}</div>
+				<div role="cell"><a href="/team/{data.teams[i].id}">{data.teams[i].display_name || data.teams[i].name}</a></div>
 
 				<div role="cell" class="justify-self-center text-xl">
 					{row.score.num_solved && row.score.num_solved > 0 ? row.score.num_solved : ''}

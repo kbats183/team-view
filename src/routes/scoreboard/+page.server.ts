@@ -27,7 +27,7 @@ export const load = async (_params) => {
 
 	let orgs = await cc.loadOrganizations();
 
-	let logos = sortedTeams?.map((team) => util.findById(orgs, team.organization_id)?.logo);
+	let logos = sortedTeams?.map(team => util.findById(orgs, team?.organization_id)?.logo);
 	const hasLogos = logos.filter(x => x).length > 0;
 
 	return {

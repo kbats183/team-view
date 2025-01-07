@@ -16,6 +16,10 @@ export const load = async (params) => {
 	if (!team) throw error(404);
 
 	const orgs = await cc.loadOrganizations();
+	const org = orgs?.find((o) => o.id === team.organization_id);
+
+	const groups = await cc.loadGroups();
+	const groups2 = groups?.filter((g) => team.group_ids?.includes(g.id));
 
 	const util = new ContestUtil();
 	const logo = util.findById(orgs, team.organization_id)?.logo;
@@ -26,10 +30,18 @@ export const load = async (params) => {
 		(p) => p.role === 'contestant' && p.team_ids?.includes(team.id)
 	);
 
+	const submissions2 = await cc.loadSubmissions();
+	const submissions = submissions2?.filter(s => s.team_id === team.id);
+
 	return {
 		team: team,
+		organization: org,
+		groups: groups2,
 		logo: logo,
 		coaches: coaches,
-		contestants: contestants
+		contestants: contestants,
+		submissions: submissions,
+		judgements: undefined,
+		judgementTypes: undefined,
 	};
 };

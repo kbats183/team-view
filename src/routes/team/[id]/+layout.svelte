@@ -18,17 +18,22 @@
 	{/if}
 
 	<div>{data.team.id}</div>
-	<div class="grow">{data.team.display_name || data.team.name}</div>
+	<div class="grow"><a href="/team/{data.team.id}">{data.team.display_name || data.team.name}</a></div>
 
 	<div class="flex flex-row gap-8">
+		{#if data.team.webcam}
 		<div><a href="/team/{data.team.id}/webcam">Webcam</a></div>
+		{/if}
+		{#if data.team.desktop}
 		<div><a href="/team/{data.team.id}/desktop">Desktop</a></div>
+		{/if}
+		{#if data.team.desktop && data.team.webcam}
 		<div><a href="/team/{data.team.id}/pip">Picture in Picture</a></div>
-		<div><a href="/team/{data.team.id}/details">Details</a></div>
+		{/if}
 	</div>
 </div>
 
-<div class="overflow-auto flex flex-col gap-4 p-2">
+<div class="overflow-auto w-full h-full">
 	<slot />
 </div>
 </div>
