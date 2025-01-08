@@ -1,15 +1,7 @@
 <script lang="ts">
-	import Banner from '$lib/ui/Banner.svelte';
-	import type { FileReferenceJSON, TeamJSON } from '$lib/contest-types';
 	import Logo from '$lib/ui/Logo.svelte';
 
-	export let data: {
-		name: string;
-		teams: TeamJSON[];
-		logos: FileReferenceJSON[][];
-		banner: FileReferenceJSON[];
-		logo: FileReferenceJSON[];
-	};
+	let { data } = $props();
 </script>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 w-full gap-2 p-2">

@@ -1,12 +1,7 @@
 <script lang="ts">
-	import type { FileReferenceJSON, TeamJSON } from '$lib/contest-types';
 	import Logo from '$lib/ui/Logo.svelte';
 
-	export let data: {
-		name: string;
-		team: TeamJSON;
-		logo: FileReferenceJSON[];
-	};
+	let { data, children } = $props();
 </script>
 
 <div class="w-full h-full overflow-hidden flex flex-col">
@@ -34,6 +29,6 @@
 </div>
 
 <div class="overflow-auto w-full h-full">
-	<slot />
+	{@render children()}
 </div>
 </div>

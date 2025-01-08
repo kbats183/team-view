@@ -1,21 +1,9 @@
 <script lang="ts">
-	import type {
-		FileReferenceJSON,
-		ProblemJSON,
-		ScoreboardJSON,
-		TeamJSON
-	} from '$lib/contest-types';
 	import { ContestUtil } from '$lib/contest-util';
 	import Logo from '$lib/ui/Logo.svelte';
 
-	export let data: {
-		name: string;
-		scoreboard: ScoreboardJSON;
-		teams: TeamJSON[];
-		logos: FileReferenceJSON[][];
-		problems: ProblemJSON[];
-		hasLogos: boolean;
-	};
+	let { data } = $props();
+
 	let cols: string[] = ['40px'];
 	if (data.hasLogos) {
 	  cols.push('40px');
@@ -61,7 +49,7 @@
 				{#if data.hasLogos}
 				<div role="cell" class="w-4 h-full justify-self-center"><Logo ref={data.logos[i]} /></div>
 				{/if}
-				<div role="cell"><a href="/team/{data.teams[i].id}">{data.teams[i].display_name || data.teams[i].name}</a></div>
+				<div role="cell"><a href="/team/{data.teams[i]?.id}">{data.teams[i]?.display_name || data.teams[i]?.name}</a></div>
 
 				<div role="cell" class="justify-self-center text-xl">
 					{row.score.num_solved && row.score.num_solved > 0 ? row.score.num_solved : ''}

@@ -1,15 +1,10 @@
 <script lang="ts">
-	import type { FileReferenceJSON } from '$lib/contest-types';
 	import Banner from '$lib/ui/Banner.svelte';
 	import Logo from '$lib/ui/Logo.svelte';
 	import '../app.css';
 	import '../tailwind.css';
 
-	export let data: {
-		name: string;
-		logo: FileReferenceJSON[];
-		banner: FileReferenceJSON[];
-	};
+	let { data, children } = $props();
 </script>
 
 <div class="w-screen h-screen overflow-hidden flex flex-col">
@@ -26,7 +21,7 @@
   </div>
 
   <div class="overflow-auto flex flex-col gap-2">
-	<slot />
+	{@render children()}
 
 	{#if data.banner && data.banner.length > 0}
 	<div class="self-center p-2">

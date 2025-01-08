@@ -1,17 +1,7 @@
 <script lang="ts">
-	import type { GroupJSON, JudgementJSON, JudgementTypeJSON, OrganizationJSON, PersonJSON, SubmissionJSON, TeamJSON } from '$lib/contest-types';
 	import Person from '$lib/ui/Person.svelte';
 
-	export let data: {
-		team: TeamJSON;
-		organization: OrganizationJSON;
-		groups: GroupJSON[];
-		coaches: PersonJSON[];
-		contestants: PersonJSON[];
-		submissions: SubmissionJSON[];
-		judgements: JudgementJSON[];
-		judgementTypes: JudgementTypeJSON[];
-	};
+	let { data } = $props();
 </script>
 
 <div class="flex flex-col p-2 gap-1">
