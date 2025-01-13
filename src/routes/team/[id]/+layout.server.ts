@@ -1,21 +1,21 @@
 import { error } from '@sveltejs/kit';
-import { Contests } from '$lib/contests';
 import { ContestUtil } from '$lib/contest-util';
-import { CONTEST_URL } from '$lib/hardcoded';
+import { contest } from '$lib/state.svelte.js';
 
 export const load = async (params) => {
-	const c = new Contests(CONTEST_URL);
-	await c.loadContests();
-	if (!c) throw error(404);
-
-	const cc = c.getContest();
+	const cc = contest;
 	if (!cc) throw error(404);
 
-	const teams = await cc.loadTeams();
+	if (!cc.getTeams())
+		await cc.loadTeams();
+	const teams = cc.getTeams();
+
 	const team = teams?.find((t) => t.id && t.id === params.params.id);
 	if (!team) throw error(404);
 
-	const orgs = await cc.loadOrganizations();
+	if (!cc.getOrganizations())
+		await cc.loadOrganizations();
+	const orgs = cc.getOrganizations();
 
 	const util = new ContestUtil();
 	const logo = util.findById(orgs, team.organization_id)?.logo;

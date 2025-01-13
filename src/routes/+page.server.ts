@@ -1,18 +1,16 @@
 import { error } from '@sveltejs/kit';
-import { Contests } from '$lib/contests';
 import { ContestUtil } from '$lib/contest-util';
 import type { TeamJSON } from '$lib/contest-types.js';
-import { CONTEST_URL } from '$lib/hardcoded';
+import { contest } from '$lib/state.svelte.js';
 
 export const load = async (_params) => {
-	const c = new Contests(CONTEST_URL);
-	await c.loadContests();
-	if (!c) throw error(404);
-
-	const cc = c.getContest();
+	const cc = contest;
 	if (!cc) throw error(404);
 
-	let teams: TeamJSON[] | undefined = await cc.loadTeams();
+	if (!cc.getTeams())
+		await cc.loadTeams();
+	let teams = cc.getTeams();
+
 	if (!teams) throw error(404);
 
 	// sort teams by id
@@ -26,7 +24,11 @@ export const load = async (_params) => {
 		return a.id.localeCompare(b.id);
 	});
 
-	const orgs = await cc.loadOrganizations();
+	if (!cc.getOrganizations())
+		await cc.loadOrganizations();
+	const orgs = cc.getOrganizations();
+
+	if (!orgs) throw error(404);
 
 	const util = new ContestUtil();
 	const logos = teams?.map((team) => util.findById(orgs, team.organization_id)?.logo);

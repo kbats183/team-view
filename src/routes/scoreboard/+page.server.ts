@@ -1,37 +1,38 @@
 import { error } from '@sveltejs/kit';
-import { Contests } from '$lib/contests';
 import { ContestUtil } from '$lib/contest-util';
-import type { ProblemJSON, ScoreboardJSON, TeamJSON } from '$lib/contest-types.js';
-import { CONTEST_URL } from '$lib/hardcoded';
+import { contest, contests } from '$lib/state.svelte.js';
 
 export const load = async (_params) => {
-	const c = new Contests(CONTEST_URL);
-	await c.loadContests();
-	if (!c) throw error(404);
-
-	const cc = c.getContest();
+	const cc = contest;
 	if (!cc) throw error(404);
 
-	let scoreboard: ScoreboardJSON | undefined = await cc.loadScoreboard();
+	let scoreboard = await cc.loadScoreboard();
 	if (!scoreboard) throw error(404);
 
-	let teams: TeamJSON[] | undefined = await cc.loadTeams();
+	if (!cc.getTeams())
+		await cc.loadTeams();
+	const teams = cc.getTeams();
 	if (!teams) throw error(404);
 
-	let problems: ProblemJSON[] | undefined = await cc.loadProblems();
+	if (!cc.getProblems())
+		await cc.loadProblems();
+	const problems = cc.getProblems();
+
 	if (!problems) throw error(404);
 
 	// sort teams by scoreboard row
 	const util = new ContestUtil();
 	let sortedTeams = scoreboard.rows?.map((row) => util.findById(teams, row.team_id));
 
-	let orgs = await cc.loadOrganizations();
+	if (!cc.getOrganizations())
+		await cc.loadOrganizations();
+	const orgs = cc.getOrganizations();
 
 	let logos = sortedTeams?.map(team => util.findById(orgs, team?.organization_id)?.logo);
 	const hasLogos = logos.filter(x => x).length > 0;
 
 	return {
-		name: c.getContests()[0].name,
+		name: contests.getContests()[0].name,
 		scoreboard: scoreboard,
 		teams: sortedTeams,
 		logos: logos,
