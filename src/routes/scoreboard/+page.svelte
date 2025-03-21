@@ -8,7 +8,7 @@
 	if (data.hasLogos) {
 	  cols.push('40px');
 	}
-	cols.push('400px');
+	cols.push('425px');
 
 	cols.push('60px');
 	cols.push('60px');
@@ -26,11 +26,10 @@
 		<div
 			role="row"
 			class="grid grid-table gap-x-0.5 h-7 sticky top-0"
-			style="grid-template-columns: {col}"
-		>
+			style="grid-template-columns: {col}">
 			<div role="cell"></div>
 			{#if data.hasLogos}
-			<div role="cell"></div>
+			   <div role="cell"></div>
 			{/if}
 			<div role="cell"></div>
 			<div role="cell" class="justify-self-center">Solved</div>
@@ -44,12 +43,12 @@
 	<!-- Table rows -->
 	<div role="rowgroup">
 		{#each data.scoreboard.rows as row, i}
-			<div role="row" class="grid grid-table gapx-0.5 items-center h-9" style="grid-template-columns: {col}">
+			<div role="row" class="grid grid-table gapx-0.5 items-center h-7" style="grid-template-columns: {col}">
 				<div role="cell" class="justify-self-end pr-1">{row.rank}</div>
 				{#if data.hasLogos}
-				<div role="cell" class="w-4 h-full justify-self-center"><Logo ref={data.logos[i]} /></div>
+				   <div role="cell" class="w-4 justify-self-center"><Logo ref={data.logos[i]} /></div>
 				{/if}
-				<div role="cell"><a href="/team/{data.teams[i]?.id}">{data.teams[i]?.display_name || data.teams[i]?.name}</a></div>
+				<div role="cell" class="text-nowrap overflow-hidden text-ellipsis"><a href="/team/{data.teams[i]?.id}">{data.teams[i]?.display_name || data.teams[i]?.name}</a></div>
 
 				<div role="cell" class="justify-self-center text-xl">
 					{row.score.num_solved && row.score.num_solved > 0 ? row.score.num_solved : ''}
