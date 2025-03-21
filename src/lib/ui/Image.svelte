@@ -13,7 +13,7 @@
 </script>
 
 {#if bestRef}
-	<div class="max-h-{size} max-w-{size}">
-		<img src={imgSrc} alt="logo" class="object-scale-down h-{size} rounded-md" />
+	<div class="max-h-{size} max-w-{size} h-{size} w-{size} flex place-content-center">
+		<img src={imgSrc} alt="logo" class="w-full h-full object-scale-down rounded-md" />
 	</div>
 {/if}
