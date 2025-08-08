@@ -51,14 +51,19 @@ export class ContestUtil {
 		logos: FileReferenceJSON[] | undefined,
 		size: number
 	): FileReferenceJSON | undefined {
-		if (!logos || size < 1) return undefined;
+		if (!logos || size < 1) {
+			return undefined;
+		}
 
 		let best: FileReferenceJSON | undefined;
 		for (var i = 0; i < logos.length; i++) {
 			let ref = logos[i];
-			if (ref.width != ref.height) continue;
-			if (!best) best = ref;
-			else if (best) {
+			if (ref.width != ref.height) {
+				continue;
+			}
+			if (!best) {
+				best = ref;
+			} else if (best) {
 				if (best.width && best.width < size && best.height && best.height < size) {
 					// current best image is too small - is this one better (larger than current)?
 					if ((ref.width && ref.width > best.width) || (ref.height && ref.height > best.height))
@@ -73,7 +78,9 @@ export class ContestUtil {
 				}
 			}
 		}
-		if (best != null) return best;
+		if (best != null) {
+			return best;
+		}
 		return this.bestLogo(logos, size, size);
 	}
 
@@ -82,13 +89,16 @@ export class ContestUtil {
 		width: number,
 		height: number
 	): FileReferenceJSON | undefined {
-		if (!logos || width < 1 || height < 1) return undefined;
+		if (!logos || width < 1 || height < 1) {
+			return undefined;
+		}
 
 		let best: FileReferenceJSON | undefined;
 		for (var i = 0; i < logos.length; i++) {
 			let ref = logos[i];
-			if (best == null) best = ref;
-			else {
+			if (best == null) {
+				best = ref;
+			} else {
 				if (best.width && best.width < width && best.height && best.height < height) {
 					// current best image is too small - is this one better (larger than current)?
 					if (

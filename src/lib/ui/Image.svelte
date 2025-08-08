@@ -8,12 +8,10 @@
 	export let size: number;
 
 	const util = new ContestUtil();
-	const bestRef = util.bestSquareLogo(ref, size);
+	const bestRef = util.bestSquareLogo(ref, size * 20);
 	const imgSrc = url.substring(0, CONTEST_URL.length) + bestRef?.href;
 </script>
 
 {#if bestRef}
-	<div class="max-h-{size} max-w-{size} h-{size} w-{size} flex place-content-center">
-		<img src={imgSrc} alt="logo" class="w-full h-full object-scale-down rounded-md" />
-	</div>
+  <img src={imgSrc} alt="logo" class="w-full h-full object-scale-down rounded-md" />
 {/if}

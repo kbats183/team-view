@@ -25,7 +25,7 @@ import type {
 	SubmissionJSON,
 	TeamJSON
 } from './contest-types';
-import { CONTEST_URL } from './hardcoded';
+import { CONTEST_PASSWORD, CONTEST_URL, CONTEST_USER } from './hardcoded';
 
 export class Contest {
 	info?: ContestJSON;
@@ -66,7 +66,9 @@ export class Contest {
 	}
 
 	getURL(type: any, id?: string) {
-		if (id == null) return this.contestURL + '/' + type;
+		if (id == null) {
+			return this.contestURL + '/' + type;
+		}
 		return this.contestURL + '/' + type + '/' + id;
 	}
 
@@ -74,8 +76,8 @@ export class Contest {
 		const httpsOptions: HttpsOptions = {
 			rejectUnauthorized: false
 		};
-		const user = "admin";
-		const password = "adm1n";
+		const user = CONTEST_USER;
+		const password = CONTEST_PASSWORD;
 		const options: OptionsOfTextResponseBody = {
 			https: httpsOptions,
 			retry: { limit: 0 },

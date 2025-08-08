@@ -8,4 +8,6 @@
 	export let size: number = 8;
 </script>
 
-<Image {url} {ref} {size} />
+<div class="max-h-{size} max-w-{size} h-{size} w-{size} flex place-content-center">
+  <Image {url} {ref} {size} />
+</div>

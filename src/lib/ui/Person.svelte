@@ -13,5 +13,6 @@
 			<span class="self-center">(unavailable)</span>
 		{/if}
 	</div>
-	<div>{person.name}</div>
+	
+	<div class="text-center">{person.name}</div>
 </div>

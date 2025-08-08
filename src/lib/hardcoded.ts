@@ -1,1 +1,3 @@
-export const CONTEST_URL: string = 'https://10.0.72.53:8443/api/';
+export const CONTEST_URL: string = 'https://localhost:8443/api/';
+export const CONTEST_USER: string = 'admin';
+export const CONTEST_PASSWORD: string = 'adm1n';
