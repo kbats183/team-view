@@ -86,6 +86,8 @@ export interface OrganizationJSON {
 	name: string;
 	formal_name?: string;
 	country?: string;
+	twitter_hashtag?: string;
+	url?: string;
 	logo?: FileReferenceJSON[];
 }
 

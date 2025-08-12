@@ -5,10 +5,36 @@
 </script>
 
 <div class="flex flex-col p-2 gap-1">
+	<div class="flex flex-col">
+	<div class="text-xl">Name</div>
+	<div>{data.team.name}</div>
+</div>
+
 {#if data.organization}
 <div class="flex flex-col">
 	<div class="text-xl">Organization</div>
 	<div>{data.organization.formal_name || data.organization.name}</div>
+</div>
+{/if}
+
+{#if data.organization?.country}
+<div class="flex flex-col">
+	<div class="text-xl">Country</div>
+	<div>{data.organization.country}</div>
+</div>
+{/if}
+
+{#if data.organization?.url}
+<div class="flex flex-col">
+	<div class="text-xl">Website</div>
+	<div>{data.organization.url}</div>
+</div>
+{/if}
+
+{#if data.organization?.twitter_hashtag}
+<div class="flex flex-col">
+	<div class="text-xl">Hashtag</div>
+	<div>{data.organization.twitter_hashtag}</div>
 </div>
 {/if}
 
