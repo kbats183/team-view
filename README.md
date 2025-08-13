@@ -21,10 +21,7 @@ pnpm install
 then start a development server:
 
 ```bash
-pnpm run dev
-
-# or start the server and open the app in a new browser tab
-pnpm run dev -- --open
+pnpm dev
 ```
 
 ## Building
@@ -32,9 +29,9 @@ pnpm run dev -- --open
 To create a production version of the app:
 
 ```bash
-pnpm run build
+pnpm build
 ```
 
-You can preview the production build with `pnpm run preview`.
+You can preview the production build with `pnpm preview`.
 
 > To deploy the app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
