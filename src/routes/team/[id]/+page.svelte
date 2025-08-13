@@ -1,5 +1,9 @@
 <script lang="ts">
 	import Person from '$lib/ui/Person.svelte';
+	import * as countries from 'i18n-iso-countries';
+	import en from 'i18n-iso-countries/langs/en.json';
+
+	countries.registerLocale(en);
 
 	let { data } = $props();
 </script>
@@ -20,7 +24,7 @@
 {#if data.organization?.country}
 <div class="flex flex-col">
 	<div class="text-xl">Country</div>
-	<div>{data.organization.country}</div>
+	<div>{countries.getName(data.organization.country, 'en')}</div>
 </div>
 {/if}
 
