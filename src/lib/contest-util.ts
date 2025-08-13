@@ -1,6 +1,7 @@
 /**
  * Copyright later.
  */
+import type { Contest } from './contest';
 import type { FileReferenceJSON, ProblemJSON, SubmissionJSON } from './contest-types';
 
 export class ContestUtil {
@@ -33,7 +34,7 @@ export class ContestUtil {
 		return list;
 	}
 
-	findManyBySubmissionId<Type extends { submission_id: string }>(arr: Array<Type>, id: string | undefined): Array<Type> | undefined {
+	findManyBySubmissionId<Type extends { submission_id: string }>(arr: Array<Type> | undefined, id: string | undefined): Array<Type> | undefined {
 		if (!arr || arr.length === 0 || !id) {
 			return undefined;
 		}
@@ -119,11 +120,18 @@ export class ContestUtil {
 		return best;
 	}
 
-	parseRelTime(relTime: string): number | undefined {
+	isNumber(value: any): value is number {
+  		return typeof value === 'number';
+	}
+
+	parseRelTime(relTime: number | string): number | undefined {
 		if (!relTime) {
 			return undefined;
 		}
-
+		if (this.isNumber(relTime)) {
+			// times were in minutes, but we want ms
+			return relTime * 60 * 1000;
+		}
 		const match = relTime.match('-?([0-9]+):([0-9]{2}):([0-9]{2})(\\.[0-9]{3})?');
 
 		if (match == null || match.length < 4) {
@@ -167,9 +175,13 @@ export class ContestUtil {
 		return sb.join("");
 	}
 
-	isFirstToSolve(contest: any, submission: SubmissionJSON) {
+	isFirstToSolve(contest: Contest, submission: SubmissionJSON): boolean {
 		const problem_id = submission.problem_id;
 		const submissions = contest.getSubmissions();
+		if (!submissions) {
+			return false;
+		}
+			
 		for (var i = 0; i < submissions.length; i++) {
 			const time: number | string | undefined = this.parseRelTime(submissions[i].contest_time);
 			if (time && time >= 0 && submissions[i].problem_id == problem_id) {

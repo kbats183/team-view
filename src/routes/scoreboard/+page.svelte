@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { invalidateAll } from '$app/navigation';
 	import { ContestUtil } from '$lib/contest-util';
 	import Logo from '$lib/ui/Logo.svelte';
+	import { flip } from 'svelte/animate';
 
 	let { data } = $props();
 
@@ -18,6 +21,16 @@
 	let col = cols.join(' ');
 
 	const util = new ContestUtil();
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			invalidateAll();
+		}, 3000);
+
+		return () => {
+			clearInterval(interval);
+		};
+	});
 </script>
 
 <div class="w-full text-sm p-2" role="table" aria-label="scoreboard">
@@ -35,15 +48,15 @@
 			<div role="cell" class="justify-self-center">Solved</div>
 			<div role="cell" class="justify-self-center">Penalty</div>
 			{#each data.problems as problem}
-				<div role="cell" class="justify-self-center uppercase">{problem.label}</div>
+				<div role="cell" class="justify-self-center text-center uppercase bg-[{problem.rgb}] border-[1px] border-black/50 rounded-sm w-6 h-6">{problem.label}</div>
 			{/each}
 		</div>
 	</div>
 
 	<!-- Table rows -->
 	<div role="rowgroup">
-		{#each data.scoreboard.rows as row, i}
-			<div role="row" class="grid grid-table gapx-0.5 items-center h-7" style="grid-template-columns: {col}">
+		{#each data.scoreboard.rows as row, i (row.team_id)}
+			<div role="row" class="grid grid-table gapx-0.5 items-center h-7" style="grid-template-columns: {col}" animate:flip>
 				<div role="cell" class="justify-self-end pr-1">{row.rank}</div>
 				{#if data.hasLogos}
 				   <div role="cell" class="w-4 justify-self-center"><Logo ref={data.logos[i]} /></div>
@@ -64,14 +77,14 @@
 					{#if rp.num_judged > 0}
 						<div
 							role="cell"
-							class="text-center w-full h-full"
+							class="flex flex-row justify-center items-center w-full h-full"
 							class:bg-green-500={rp.solved || (rp.score && rp.score > 0)}
 							class:bg-yellow-500={rp.num_pending > 0 && !rp.solved && (!rp.score || rp.score == 0)}
 							class:bg-red-500={!rp.solved && rp.num_judged > 0 && rp.num_pending == 0}>
-						<div>
-							{rp.num_judged + rp.num_pending}
-						</div>
-						<div class="text-xs text-black/50">{rp.time ? util.formatTimeInMin(util.parseRelTime(rp.time)) : ''}</div>
+							<div class="pr-2">
+								{rp.num_judged + rp.num_pending}
+							</div>
+							<div class="text-xs text-black/50">{rp.time ? util.formatTimeInMin(util.parseRelTime(rp.time)) : ''}</div>
 						</div>
 					{:else}
 						<div role="cell"></div>

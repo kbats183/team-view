@@ -70,9 +70,13 @@ export interface TeamJSON {
 
 export interface ProblemJSON {
 	id: Id;
+	uuid?: string;
 	label: string;
 	name: string;
 	ordinal: number;
+	rgb?: string;
+	color?: string;
+    max_score?: number;
 }
 
 export interface GroupJSON {
@@ -134,7 +138,7 @@ export interface ScoreboardJSON {
 
 export interface ScoreboardScoreJSON {
 	num_solved?: number;
-	total_time?: RelTime;
+	total_time?: number | RelTime;
 	score?: number;
 	time?: RelTime;
 }
@@ -152,7 +156,7 @@ export interface ScoreboardProblemJSON {
 	num_pending: number;
 	solved?: boolean;
 	score?: number;
-	time?: RelTime;
+	time?: number | RelTime;
 }
 
 export interface JudgementJSON {
