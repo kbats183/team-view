@@ -48,7 +48,9 @@
 			<div role="cell" class="justify-self-center">Solved</div>
 			<div role="cell" class="justify-self-center">Penalty</div>
 			{#each data.problems as problem}
-				<div role="cell" class="justify-self-center text-center uppercase bg-[{problem.rgb}] border-[1px] border-black/50 rounded-sm w-6 h-6">{problem.label}</div>
+			  <a class="justify-self-center" href="/problem/{problem.id}">
+				<div role="cell" class="text-center uppercase bg-[{problem.rgb}] border-[1px] border-black/50 rounded-sm w-6 h-6">{problem.label}</div>
+			  </a>
 			{/each}
 		</div>
 	</div>

@@ -77,6 +77,7 @@ export interface ProblemJSON {
 	rgb?: string;
 	color?: string;
     max_score?: number;
+	statement: FileReferenceJSON[];
 }
 
 export interface GroupJSON {
