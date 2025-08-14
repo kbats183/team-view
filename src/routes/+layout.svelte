@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Banner from '$lib/ui/Banner.svelte';
+	import Clock from '$lib/ui/Clock.svelte';
 	import Logo from '$lib/ui/Logo.svelte';
 	import '../app.css';
 	import '../tailwind.css';
@@ -14,8 +15,10 @@
 			<Logo ref={data.logo} />
 		</div>
 	{/if}
-	
+
 	<div class="text-2xl w-full"><a href="/">{data.name}</a></div>
+
+	<div class="w-48"><Clock contest={data.contest}/></div>
 
 	<div class="text-lg"><a href="/scoreboard">Scoreboard</a></div>
   </div>

@@ -2,7 +2,7 @@
  * Copyright later.
  */
 import type { Contest } from './contest';
-import type { FileReferenceJSON, ProblemJSON, SubmissionJSON } from './contest-types';
+import type { ContestJSON, FileReferenceJSON, ProblemJSON, SubmissionJSON } from './contest-types';
 
 export class ContestUtil {
 	findById<Type extends { id: string }>(arr: Array<Type> | undefined, id: string | undefined): Type | undefined {
@@ -206,5 +206,110 @@ export class ContestUtil {
 
 	sortProblems(problems: ProblemJSON[]): any {
 		return problems.sort((a, b) => (a.ordinal > b.ordinal ? 1 : b.ordinal > a.ordinal ? -1 : 0));
+	}
+
+	getState(contest: ContestJSON | undefined): 'unscheduled' | 'countdown' | 'paused' | 'running' | 'frozen' | 'finished' {
+		if (contest == null) {
+			return 'unscheduled';
+		}
+
+		let m = 1;
+		if (contest.time_multiplier)
+			m = contest.time_multiplier;
+
+		if (contest.start_time == null) {
+			if (contest.countdown_pause_time)
+				return 'paused';
+			return 'unscheduled';
+		}
+
+		let d = new Date(contest.start_time);
+
+		let time = (Date.now() - d.getTime()) * m; // - contest.getTimeDelta();
+		if (time < 0) {
+			return 'countdown';
+		}
+		let duration = this.parseRelTime(contest.duration);
+		if (duration) {
+			if (time > duration)
+				return 'finished';
+
+			let freeze = this.parseRelTime(contest.scoreboard_freeze_duration);
+			if (freeze && time > duration - freeze)
+				return 'frozen';
+		}
+		
+		return 'running';
+	}
+
+	getContestTime(contest: ContestJSON | undefined, short: boolean): string | undefined {
+		if (contest == null) {
+			return undefined;
+		}
+
+		let m = 1;
+		if (contest.time_multiplier)
+			m = contest.time_multiplier;
+
+		if (contest.start_time == null) {
+			if (!contest.countdown_pause_time)
+				return "Contest not scheduled";
+			else {
+				let pause = this.parseRelTime(contest.countdown_pause_time);
+				if (!pause)
+					return "Paused";
+
+				if (short)
+					return this.formatContestTime(-pause * m, false) + " (paused)";
+				else
+					return "Countdown paused: " + this.formatContestTime(-pause * m, false);
+			}
+		}
+
+		let d = new Date(contest.start_time);
+
+		let time = (Date.now() - d.getTime()) * m; // - contest.getTimeDelta();
+		if (time < 0) {
+			if (short)
+				return this.formatContestTime(time, true);
+			else
+				return "Countdown: " + this.formatContestTime(time, true);
+		}
+		let duration = this.parseRelTime(contest.duration);
+		if (duration && time > duration)
+			return "Contest is over";
+		
+		return this.formatContestTime(time, true);
+	}
+
+	formatContestTime(time: number, floor: boolean): string {
+		var sb = [];
+		if (time < 0)
+			sb.push("-");
+		
+		let ss: number;
+		if (floor)
+			ss = Math.abs(Math.floor(time / 1000.0));
+		else
+			ss = Math.abs(Math.ceil(time / 1000.0));
+
+		var days = Math.floor(ss / 86400.0);
+
+		if (days > 0)
+			sb.push(days + "d ");
+
+		var hours = Math.floor(ss / 3600.0) % 24;
+		sb.push(hours + ":");
+
+		var minutes = Math.floor(ss / 60) % 60;
+		if (minutes < 10)
+			sb.push("0");
+		sb.push(minutes + ":");
+
+		var seconds = ss % 60;
+		if (seconds < 10)
+			sb.push("0");
+		sb.push(seconds);
+		return sb.join("");
 	}
 }
