@@ -121,7 +121,7 @@ export class ContestUtil {
 	}
 
 	isNumber(value: any): value is number {
-  		return typeof value === 'number';
+		return typeof value === 'number';
 	}
 
 	parseRelTime(relTime: number | string): number | undefined {
@@ -142,7 +142,7 @@ export class ContestUtil {
 		const m = parseInt(match[2]);
 		const s = parseInt(match[3]);
 		let ms = 0;
-		if (match.length == 5){
+		if (match.length == 5) {
 			ms = parseInt(match[4].substring(1));
 		}
 
@@ -154,24 +154,24 @@ export class ContestUtil {
 		return ret;
 	}
 
-	formatTimeInMin(timeMs : number | undefined) {
+	formatTimeInMin(timeMs: number | undefined) {
 		if (!timeMs) {
 			return "";
 		}
 		if (timeMs >= 0 && timeMs < 1000)
 			return "0";
-	
+
 		var sb = [];
 		if (timeMs < 0) {
 			sb.push("-");
 			timeMs = -timeMs;
 		}
 		let timeS = Math.floor(timeMs / 1000);
-	
+
 		let mins = Math.floor(timeS / 60.0);
 		if (mins > 0)
 			sb.push(mins);
-	
+
 		return sb.join("");
 	}
 
@@ -181,7 +181,7 @@ export class ContestUtil {
 		if (!submissions) {
 			return false;
 		}
-			
+
 		for (var i = 0; i < submissions.length; i++) {
 			const time: number | string | undefined = this.parseRelTime(submissions[i].contest_time);
 			if (time && time >= 0 && submissions[i].problem_id == problem_id) {

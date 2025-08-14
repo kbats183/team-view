@@ -1,12 +1,35 @@
 <script lang="ts">
+	import { ColorUtil } from '$lib/color-util.js';
+
 	let { data } = $props();
+
+	const cUtil = new ColorUtil();
+	
+	let pStyle = '';
+	let rgb = data.problem.rgb;
+	if (rgb) {
+		let col = cUtil.parseHexColor(rgb);
+		let fg = '#fff';
+		if (col && col[0] + col[1] + col[2] > 450) {
+			fg = '#000';
+		}
+		let border =rgb;
+		if (col) {
+			let darker = cUtil.darker(col);
+			border = cUtil.rgbToHex(darker);
+		}
+
+		pStyle = 'background-color:'+rgb+';color:'+fg+ ';border-color:'+border+';';
+	} else {
+		pStyle = 'background-color:#fff;color:#000;border:#000;';
+	}
 </script>
 
 <div class="flex flex-col p-2 gap-1">
 	<div class="flex flex-col">
 	<div class="text-xl">Problem</div>
-	<div class="flex flex-row">
-		<div class="justify-self-center text-center uppercase bg-[{data.problem.rgb}] border-[1px] border-black/50 rounded-sm w-8 h-6 mr-2">{data.problem.label}</div>
+	<div class="flex flex-row gap-x-2">
+		<div class="justify-self-center text-center uppercase border-[1px] rounded-sm w-12 h-6" style={pStyle}>{data.problem.label}</div>
 		{data.problem.name}</div>
 </div>
 
