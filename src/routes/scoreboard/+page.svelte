@@ -87,7 +87,7 @@
 		{#each data.scoreboard.rows as row, i (row.team_id)}
 			<div
 				role="row"
-				class="grid grid-table items-center min-h-7 odd:bg-gray-100 my-0.5 gap-x-0.5"
+				class="grid grid-table items-center min-h-7 even:bg-white odd:bg-gray-100 my-0.5 gap-x-0.5"
 				style="grid-template-columns: {col}"
 				animate:flip>
 				<div role="cell" class="justify-self-center pr-1">{row.rank}</div>

@@ -142,7 +142,8 @@ export class Contest {
 	}
 
 	async loadInfo(): Promise<ContestJSON | undefined> {
-		return this.loadObject('');
+		this.info = await this.loadObject('');
+		return this.info;
 	}
 
 	async loadAccess(): Promise<StartStatusJSON | undefined> {

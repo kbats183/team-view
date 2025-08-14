@@ -5,7 +5,7 @@
 
 	const cUtil = new ColorUtil();
 	
-	let pStyle = '';
+	let pStyle = $state('');
 	let rgb = data.problem.rgb;
 	if (rgb) {
 		let col = cUtil.parseHexColor(rgb);

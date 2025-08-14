@@ -1,10 +1,15 @@
 import { error } from '@sveltejs/kit';
 import { ContestUtil } from '$lib/contest-util';
-import { contest, contests } from '$lib/state.svelte.js';
+import { contest } from '$lib/state.svelte.js';
 
 export const load = async (_params) => {
 	const cc = contest;
 	if (!cc) throw error(404);
+
+	if (!cc.getInfo())
+		await cc.loadInfo();
+	let info = cc.getInfo();
+	if (!info) throw error(404);
 
 	let scoreboard = await cc.loadScoreboard();
 	if (!scoreboard) throw error(404);
@@ -32,7 +37,7 @@ export const load = async (_params) => {
 	const hasLogos = logos.filter(x => x).length > 0;
 
 	return {
-		name: contests.getContests()[0].name,
+		name: info.name,
 		scoreboard: scoreboard,
 		teams: sortedTeams,
 		logos: logos,

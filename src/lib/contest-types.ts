@@ -19,13 +19,14 @@ export interface ContestJSON {
 	formal_name?: string;
 	start_time?: string;
 	duration: RelTime;
-	scoreboard_freeze_duration?: string;
+	scoreboard_freeze_duration?: RelTime;
 	scoreboard_type: 'pass-fail' | 'scoring';
-	penalty_time?: RelTime;
-	countdown_pause_time?: string;
+	penalty_time?: number | RelTime; // 2023-06 | draft
+	countdown_pause_time?: RelTime;
 	banner?: FileReferenceJSON[];
 	logo?: FileReferenceJSON[];
 	location?: ContestLocationJSON;
+	time_multiplier?: number;
 }
 
 export interface FileReferenceJSON {
@@ -139,7 +140,7 @@ export interface ScoreboardJSON {
 
 export interface ScoreboardScoreJSON {
 	num_solved?: number;
-	total_time?: number | RelTime;
+	total_time?: number | RelTime; // 2023-06 | draft
 	score?: number;
 	time?: RelTime;
 }
@@ -157,7 +158,7 @@ export interface ScoreboardProblemJSON {
 	num_pending: number;
 	solved?: boolean;
 	score?: number;
-	time?: number | RelTime;
+	time?: number | RelTime; // 2023-06 | draft
 }
 
 export interface JudgementJSON {

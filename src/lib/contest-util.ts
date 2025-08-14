@@ -124,7 +124,7 @@ export class ContestUtil {
 		return typeof value === 'number';
 	}
 
-	parseRelTime(relTime: number | string): number | undefined {
+	parseRelTime(relTime: number | string | undefined): number | undefined {
 		if (!relTime) {
 			return undefined;
 		}
