@@ -18,6 +18,7 @@
 
 	let videoNode = $state<HTMLElement | string>('');
 	let player = $state<Player>();
+	let client: any;
 
 	const options = {
 		autoplay: true,
@@ -36,27 +37,60 @@
 	};
 
 	onMount(async () => {
-		await import('videojs-mpegtsjs');
+		if (!src) {
+			return
+		}
+		if (mime !== 'application/vnd.webrtc-grabber.stream') {
+			await import('videojs-mpegtsjs');
 
-		player = videojs(videoNode, options, function onPlayerReady() {
-			// player ready
-		});
-		if (src) {
-			if (mime === 'video/m2ts') {
-				// Video.js mpegts.js expects a different mime type
-				mime = 'video/mp2t';
+			player = videojs(videoNode, options, function onPlayerReady() {
+				// player ready
+			});
+			if (src) {
+				if (mime === 'video/m2ts') {
+					// Video.js mpegts.js expects a different mime type
+					mime = 'video/mp2t';
+				}
+				let srcObj = {
+					src: src,
+					type: mime
+				};
+				player.src(srcObj);
 			}
-			let srcObj = {
-				src: src,
-				type: mime
-			};
-			player.src(srcObj);
+		} else {
+			const url = new URL(src);
+			const peerName = url.searchParams.get('peerName');
+			const streamType = url.searchParams.get('streamType');
+			const credential = url.searchParams.get('credential');
+			const baseUrl = `${url.protocol}//${url.host}`;
+
+			const { GrabberPlayerClient } = await import('$lib/grabber/GrabberPlayerClient'); // потом заменим путь
+
+			client = new GrabberPlayerClient('play', baseUrl);
+
+			client.authorize(credential);
+			client.on('initialized', () => {
+				client.connect({ peerName }, streamType, (stream) => {
+					console.log('Got WebRTC stream', stream);
+					if (videoNode && stream instanceof MediaStream) {
+						const el = videoNode as HTMLVideoElement;
+						el.srcObject = stream;
+						el.play();
+						el.style.width = "100%";
+						el.style.height = "100%";
+						el.style.objectFit = "contain";
+					}
+				});
+			});
 		}
 	});
 
 	onDestroy(() => {
 		if (player) {
 			player.dispose();
+		}
+		if (client) {
+			client.close();
 		}
 	});
 </script>
