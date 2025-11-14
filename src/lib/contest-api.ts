@@ -144,7 +144,7 @@ export class ContestAPI {
 					d = new Date(xhr.getResponseHeader("Date"));
 				else
 					d = new Date(parseInt(time));
-					
+
 					this.end = Date.now();
 				var serverTime = (Date.now() - d.getTime()) - (this.end - this.start) / 2;
 				if (this.timeDelta.length > 4)
@@ -430,14 +430,18 @@ export class ContestAPI {
 		console.log(`Watching ${this.id}`);
 		this.interval = setInterval(async () => {
 			console.log(`Invalidating ${this.id}`);
-			if (this.contest)
-				await this.loadContest(true);
-			if (this.submissions)
-				await this.loadSubmissions(true);
-			if (this.judgements)
-				await this.loadJudgements(true);
-			if (this.scoreboard)
-				await this.loadScoreboard(true);
+			try {
+				if (this.contest)
+					await this.loadContest(true);
+				if (this.submissions)
+					await this.loadSubmissions(true);
+				if (this.judgements)
+					await this.loadJudgements(true);
+				if (this.scoreboard)
+					await this.loadScoreboard(true);
+			} catch (e) {
+				console.error(`Error updating contest data for ${this.id}: ${e}`);
+			}
 		}, 5000);
 	}
 

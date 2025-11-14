@@ -30,12 +30,17 @@ export class Contests {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
 			if (error instanceof HTTPError) {
+				if ([502, 503, 504].includes(error.response.statusCode)) {
+					console.warn(`[ContestAPI] Server unavailable (${error.response.statusCode}) when loading contests from ${this.baseURL}`);
+					return;
+				}
 				throw new Error(`HTTP error ${error.response.statusCode} loading contests: ${error.response.statusMessage}`);
 			} else if (error instanceof RequestError) {
 				throw new Error(`Error loading contests: ${error.code}`);
 			} else {
 				throw new Error(`Unexpected error loading contests: ${error}`);
 			}
+
 		}
 	}
 
