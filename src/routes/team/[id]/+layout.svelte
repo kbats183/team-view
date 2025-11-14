@@ -61,7 +61,7 @@
 		</div>
 	{/if}
 
-	<div class="gap-2 w-full grow overflow-hidden">
+	<div class="gap-2 w-full grow overflow-hidden bg-black">
 		{@render children()}
 	</div>
 </div>
