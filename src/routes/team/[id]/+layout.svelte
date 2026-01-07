@@ -31,18 +31,18 @@
 		</div>
 
 		<div class="flex flex-row gap-8">
-			{#if data.team.webcam}
+			<!-- {#if data.team.webcam}
 				<div><a href="/team/{data.team.id}/webcam">Webcam</a></div>
 			{/if}
 			{#if data.team.desktop}
 				<div><a href="/team/{data.team.id}/desktop">Desktop</a></div>
-			{/if}
+			{/if} -->
 			{#if data.team.desktop && data.team.webcam}
 				<div><a href="/team/{data.team.id}/pip">Picture in Picture</a></div>
 			{/if}
-			{#if data.team.desktop && data.team.webcam}
+			<!-- {#if data.team.desktop && data.team.webcam}
 				<div><a href="/team/{data.team.id}/rpip">Reverse PiP</a></div>
-			{/if}
+			{/if} -->
 			{#if data.team.desktop && data.team.webcam}
 				<div><a href="/team/{data.team.id}/side-side">Both</a></div>
 			{/if}

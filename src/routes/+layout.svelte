@@ -36,6 +36,7 @@
 			<div class="text-lg"><a href="/map">Map</a></div>
 		{/if}
 
+		<div class="text-lg w-24"><a href="/">All teams</a></div>
 		<div class="text-lg"><a href="/scoreboard">Scoreboard</a></div>
 	</div>
 

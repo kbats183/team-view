@@ -17,7 +17,7 @@
 						</div>
 					{/if}
 
-					<div class="p-1 min-w-6">{team.id}</div>
+					<!--<div class="p-1 min-w-6">{team.id}</div>-->
 
 					<div>{team.display_name || team.name}</div>
 				</div>
